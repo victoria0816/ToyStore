@@ -1,33 +1,29 @@
 window.dataLayer = window.dataLayer || [];
-
 const renderBadge = () => {
   const badge = document.querySelector('#cart-badge')
   badge.innerText = cartLS.list().reduce((prev, curr) => prev + curr.quantity, 0)
 }
-
 const listenToAdd = (buttons) => {
   buttons.forEach((button) => {
     button.addEventListener('click', (event) => {
       const { id, name, price } = event.currentTarget.dataset
       if (cartLS.exists(id)) {
-          cartLS.quantity(id, 1)
+        cartLS.quantity(id, 1)
       } else {
-      cartLS.add({ id, name, price })
+        cartLS.add({ id, name, price })
       }
       dataLayer.push({
         event: 'add_to_cart',
         product_id: id,
         product_name: name,
         product_price: Number(price)
-})
-})
-})
- }
-
+      })
+    })
+  })
+}
 const cartItemsListeners = () => {
   const addToCartButtons = document.querySelectorAll('.cart .add-to-cart')
   listenToAdd(addToCartButtons)
-
   const cartItemRemoveButtons = document.querySelectorAll('.cart-item-remove')
   cartItemRemoveButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
@@ -41,7 +37,6 @@ const cartItemsListeners = () => {
       })
     })
   })
-
   const removeFromCartButtons = document.querySelectorAll('.remove-from-cart')
   removeFromCartButtons.forEach((button) => {
     button.addEventListener('click', (event) => {
@@ -55,11 +50,8 @@ const cartItemsListeners = () => {
     })
   })
 }
-
-
 const renderCart = () => {
   renderBadge();
-
   const cartBody = document.querySelector('.cart');
   cartBody.innerHTML = cartLS.list().map((item, index) => {
     return `<tr>
@@ -76,19 +68,14 @@ const renderCart = () => {
       <td class="text-right"><button class="btn btn-outline-danger btn-sm cart-item-remove" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" data-quantity="${item.quantity}">Remove</button></td>
     </tr>`
   }).join('');
-
   const total = document.querySelector('.total')
   total.innerText = `${cartLS.total()}€`;
-
   cartItemsListeners();
 }
-
 renderCart();
 cartLS.onChange(renderCart);
-
 const addToCartButtons = document.querySelectorAll('.add-to-cart')
 listenToAdd(addToCartButtons)
-
 const contactForm = document.getElementById('form-contact')
 if (contactForm) {
   contactForm.addEventListener('submit', (event) => {
@@ -96,7 +83,6 @@ if (contactForm) {
       event: 'contactFormSubmit', location: 'contact', contact: Object.fromEntries(new FormData(event.currentTarget)) })
   })
 }
-
 const checkoutButton = document.getElementById('checkout-button')
 checkoutButton.addEventListener('click', (event) => {
   dataLayer.push({
@@ -110,7 +96,6 @@ checkoutButton.addEventListener('click', (event) => {
   const modal = bootstrap.Modal.getInstance('#cartModal')
   modal.hide()
 })
-
 const cards = document.querySelectorAll('.card-hover')
 cards.forEach((card) => {
   card.addEventListener('mouseenter', (event) => {
@@ -120,3 +105,13 @@ cards.forEach((card) => {
     event.currentTarget.classList.remove('shadow-sm')
   })
 })
+
+
+
+
+
+
+
+
+
+
